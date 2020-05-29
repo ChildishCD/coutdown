@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Count Down</title>
+</head>
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Covered+By+Your+Grace);
+
+  #days {
+    font-size: 200px;
+    color: #db4844;
+  }
+
+  #hours {
+    font-size: 150px;
+    color: #f07c22;
+  }
+
+  #minutes {
+    font-size: 100px;
+    color: #f6da74;
+  }
+
+  #seconds {
+    font-size: 50px;
+    color: #abcd58;
+  }
+
+  div {
+    display: inline-block;
+    line-height: 1;
+    padding: 20px;
+    font-size: 40px;
+  }
+
+  span {
+    display: block;
+    font-size: 20px;
+    color: white;
+  }
+
+  body {
+    text-align: center;
+    font-family: 'Covered By Your Grace', cursive;
+    color: white;
+    background: #222;
+  }
+</style>
+
+<body>
+  <!-- partial:index.partial.html -->
+  <h2 id="title" style="margin: 0px;font-family:'Microsoft YaHei','Apple LiSung Light';letter-spacing: 5px;">
+    距离今日提交时间还有
+  </h2>
+  <div>
+    <div id="timer">
+      <div id="hours"></div>
+      <div id="minutes"></div>
+      <div id="seconds"></div>
+    </div>
+    <img id="warn" style="display: none;" src="../0.jpg"> </img>
+  </div>
+
+
+</body>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script>
+  var switchflag = 0;
+  var endTime = new Date();
+  endTime.setHours(18);
+  endTime.setMinutes(0);
+  endTime.setSeconds(0);
+  var endDay = new Date();
+  endDay.setHours(23);
+  endDay.setMinutes(59);
+  endDay.setSeconds(59);
+
+  function makeTimer(endTime) {
+    //var endTime = new Date("April 26, 2013 17:00:00 PDT");
+    var now = new Date();
+
+    if (now > endTime) {
+      switchflag = 1;
+      if ((endDay - now) < 3600000) {
+        switchflag = 2;
+      }
+      return;
+    }
+    var endTime = (Date.parse(endTime)) / 1000;
+    var now = (Date.parse(now) / 1000);
+
+    var timeLeft = endTime - now;
+
+    var days = Math.floor(timeLeft / 86400);
+    var hours = Math.floor((timeLeft - (days * 86400)) / 3600);
+    var minutes = Math.floor((timeLeft - (days * 86400) - (hours * 3600)) / 60);
+    var seconds = Math.floor((timeLeft - (days * 86400) - (hours * 3600) - (minutes * 60)));
+
+    if (hours < "10") { hours = "0" + hours; }
+    if (minutes < "10") { minutes = "0" + minutes; }
+    if (seconds < "10") { seconds = "0" + seconds; }
+
+    $("#days").html(days + "<span>Days</span>");
+    $("#hours").html(hours + "<span>Hours</span>");
+    $("#minutes").html(minutes + "<span>Minutes</span>");
+    $("#seconds").html(seconds + "<span>Seconds</span>");
+  }
+
+  function showOtherDiv() {
+    if (switchflag == 1) {
+      endTime.setHours(21);
+      var otherDiv = document.getElementById('title');
+      otherDiv.innerHTML = "21:00前交了吧，加油加油！💁‍♂️💖";
+    } else if (switchflag == 2) {
+      clearInterval(interval);
+      var otherDiv = document.getElementById('title');
+      otherDiv.innerHTML = "🙆‍♂️感谢大家的支持！💨💝，还没完成的🔽";
+      var otherDiv = document.getElementById('timer');
+      otherDiv.style.display = "none";
+      var otherDiv = document.getElementById('warn');
+      otherDiv.style.display = "block";
+    }
+
+  }
+  //var interval=setInterval(makeTimer, 1000);
+  var interval = setInterval(function () { makeTimer(endTime); }, 1000);
+  var interval2 = setInterval(function () { showOtherDiv(); }, 1000);
+
+
+
+</script>
+
+</html>
