@@ -60,7 +60,7 @@
       <div id="minutes"></div>
       <div id="seconds"></div>
     </div>
-    <img id="warn" style="display: none;" src="../0.jpg"> </img>
+    <img id="warn" style="display: none;" src="pic/0.jpg"> </img>
   </div>
 
 
@@ -84,7 +84,7 @@
 
     if (now > endTime) {
       switchflag = 1;
-      if ((endDay - now) < 3600000) {
+      if ((endDay - now) < 10800000) {
         switchflag = 2;
       }
       return;
